@@ -1,5 +1,5 @@
 # coding: utf-8
-# IP$B%"%I%l%9$r<hF@$7$F(BLCD$B$KI=<($9$k!#(B
+# IPアドレスを取得してLCDに表示する。
 
 import sys
 import time
@@ -10,23 +10,23 @@ import gip
 import lcd
 import gpio
 
-# mode:0 $B%m!<%+%k(B		IP
-# mode:1 $B%0%m!<%P%k(B	IP
+# mode:0 ローカル		IP
+# mode:1 グローバル	IP
 mode = 0
 
-# GPIO$B$K;H$&%T%sHV9f(B
+# GPIOに使うピン番号
 IO_NO = 4
 
 lip_add = "lIP Not init!!!"
 gip_add = "gIP NOT init!!!"
 
-# $B%3!<%k%P%C%/4X?t(B
+# コールバック関数
 def switch_callback(gpio_pin):
 	time.sleep(0.03)
 	if GPIO.input(gpio_pin) != 1:
 		return
 
-	# $B@5$7$$%-!<$,2!$5$l$F$?:]$N=hM}(B
+	# 正しいキーが押されてた際の処理
 	global mode
 	if mode == 0:
 		show_ip('Local IP pi@', lip_add)
@@ -35,7 +35,7 @@ def switch_callback(gpio_pin):
 		show_ip('Global IP pi@', gip_add)
 		mode *= 0
 
-# IP$B%"%I%l%9$NI=<((B
+# IPアドレスの表示
 def show_ip(msg, ip):
 	lcd.clear()
 	lcd.setaddress(0, 0)
@@ -52,7 +52,10 @@ if __name__ == "__main__":
 	lip_add = lip.get_lipadd('eth0')
 	gip_add = gip.get_ipadd()
 
-	# $BF~NOBT$A(B
+	# 初回起動時はローカルIPを表示
+	show_ip('Local IP pi@', lip_add)
+
+	# 入力待ち
 	gpio.wait_input()
 
 	sys.exit()
