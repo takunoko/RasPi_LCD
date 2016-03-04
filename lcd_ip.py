@@ -28,12 +28,12 @@ def switch_callback(gpio_pin):
 
 	# 正しいキーが押されてた際の処理
 	global mode
-	if mode == 0:
+	if mode == 1:
 		show_ip('Local IP pi@', lip_add)
-		mode = 1
+		mode = 0
 	else:
 		show_ip('Global IP pi@', gip_add)
-		mode *= 0
+		mode *= 1
 
 # IPアドレスの表示
 def show_ip(msg, ip):
