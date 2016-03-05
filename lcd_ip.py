@@ -29,11 +29,13 @@ def switch_callback(gpio_pin):
 	# 正しいキーが押されてた際の処理
 	global mode
 	if mode == 1:
+	        lip_add = lip.get_lipadd('eth0')
 		show_ip('Local IP pi@', lip_add)
 		mode = 0
 	else:
+	        gip_add = gip.get_ipadd()
 		show_ip('Global IP pi@', gip_add)
-		mode *= 1
+		mode = 1
 
 # IPアドレスの表示
 def show_ip(msg, ip):
